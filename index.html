@@ -8,7 +8,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after {
       margin: 0;
@@ -174,9 +174,85 @@
       z-index: 5;
       background: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.85) 100%);
     }
+
+    /* ── Technical / mil-spec layer ── */
+    :root { --mono: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace; }
+
+    /* Small tracked monospace labels pinned to each corner */
+    .tech-label {
+      position: fixed;
+      z-index: 11;
+      font-family: var(--mono);
+      font-size: clamp(8.5px, 1.3vw, 10.5px);
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.42);
+      pointer-events: none;
+    }
+    .tech-label .dim { color: rgba(255,255,255,0.22); }
+    .tech-tl { top: 26px; left: 30px; }
+    .tech-tr { top: 26px; right: 30px; text-align: right; }
+    .tech-bl { bottom: 26px; left: 30px; }
+    .tech-br { bottom: 26px; right: 30px; text-align: right; }
+
+    /* HUD registration brackets — L-shaped corner marks */
+    .bracket {
+      position: fixed;
+      width: 16px; height: 16px;
+      border: 1px solid rgba(255,255,255,0.28);
+      z-index: 11;
+      pointer-events: none;
+    }
+    .bracket.tl { top: 18px; left: 18px; border-right: 0; border-bottom: 0; }
+    .bracket.tr { top: 18px; right: 18px; border-left: 0; border-bottom: 0; }
+    .bracket.bl { bottom: 18px; left: 18px; border-right: 0; border-top: 0; }
+    .bracket.br { bottom: 18px; right: 18px; border-left: 0; border-top: 0; }
+
+    /* Center monospace spec strip — the Anduril caption row */
+    .spec {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      font-family: var(--mono);
+      font-size: clamp(10px, 1.7vw, 13px);
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+    .spec .sep { color: rgba(255,255,255,0.18); font-weight: 400; }
+    .spec .spec-link {
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .spec .spec-link:hover, .spec .spec-link:active { color: #fff; }
+
+    /* Tighten the wordmark a touch — more monumental/industrial */
+    .logo { letter-spacing: -0.04em; }
+
+    @media (max-width: 480px) {
+      .tech-bl, .tech-br { display: none; }   /* declutter on small screens */
+      .spec { gap: 9px; }
+    }
   </style>
 </head>
 <body>
+
+  <!-- HUD registration brackets -->
+  <span class="bracket tl"></span>
+  <span class="bracket tr"></span>
+  <span class="bracket bl"></span>
+  <span class="bracket br"></span>
+
+  <!-- Technical corner labels -->
+  <div class="tech-label tech-tl">NØRMAL<br><span class="dim">// MARKET</span></div>
+  <div class="tech-label tech-tr">INDEX 001<br><span class="dim">EST. MMXXIV</span></div>
+  <div class="tech-label tech-bl">REC. NØRMAL<br><span class="dim">ALL RIGHTS RESERVED</span></div>
+  <div class="tech-label tech-br">STATUS<br><span class="dim">● ONLINE</span></div>
 
   <div class="orbs">
     <div class="orb orb-1"></div>
@@ -190,8 +266,13 @@
 
   <div class="center">
     <div class="logo">NØRMAL</div>
-    <div class="tagline">Market</div>
-    <a class="ig-link" href="https://www.instagram.com/hqnormal" target="_blank" rel="noopener">@hqnormal</a>
+    <div class="spec">
+      <span>Market</span>
+      <span class="sep">/</span>
+      <span>Est. MMXXIV</span>
+      <span class="sep">/</span>
+      <a class="spec-link" href="https://www.instagram.com/hqnormal" target="_blank" rel="noopener">&#8599; @hqnormal</a>
+    </div>
   </div>
 
 </body>
