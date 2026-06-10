@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NØRMAL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      min-height: 100dvh;
+      background: #000;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── Orb canvas ── */
+    .orbs {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      animation: float linear infinite;
+    }
+
+    /* Glossy black orb — layered radial gradients */
+    .orb::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background:
+        /* top-left specular highlight */
+        radial-gradient(ellipse 38% 28% at 32% 28%, rgba(255,255,255,0.55) 0%, transparent 100%),
+        /* secondary rim highlight */
+        radial-gradient(ellipse 60% 20% at 70% 78%, rgba(200,200,200,0.18) 0%, transparent 100%),
+        /* base gloss body */
+        radial-gradient(circle at 40% 40%, #2a2a2a 0%, #0d0d0d 45%, #000 100%);
+      box-shadow:
+        inset 0 0 40px rgba(255,255,255,0.04),
+        0 8px 60px rgba(0,0,0,0.9),
+        0 2px 8px rgba(255,255,255,0.04);
+    }
+
+    /* Ø emboss */
+    .orb::after {
+      content: 'Ø';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      font-weight: 900;
+      color: rgba(255,255,255,0.08);
+      text-shadow: 0 1px 2px rgba(255,255,255,0.12), 0 -1px 2px rgba(0,0,0,0.9);
+      user-select: none;
+      line-height: 1;
+    }
+
+    /* Individual orb sizes / positions / speeds */
+    .orb-1 {
+      width: 340px; height: 340px;
+      top: -60px; left: -80px;
+      animation-duration: 18s;
+      animation-delay: 0s;
+    }
+    .orb-1::after { font-size: 160px; }
+
+    .orb-2 {
+      width: 220px; height: 220px;
+      top: 55%; right: -50px;
+      animation-duration: 24s;
+      animation-delay: -6s;
+    }
+    .orb-2::after { font-size: 100px; }
+
+    .orb-3 {
+      width: 160px; height: 160px;
+      bottom: -30px; left: 30%;
+      animation-duration: 20s;
+      animation-delay: -10s;
+    }
+    .orb-3::after { font-size: 74px; }
+
+    .orb-4 {
+      width: 120px; height: 120px;
+      top: 20%; right: 18%;
+      animation-duration: 28s;
+      animation-delay: -4s;
+    }
+    .orb-4::after { font-size: 54px; }
+
+    .orb-5 {
+      width: 80px; height: 80px;
+      top: 65%; left: 12%;
+      animation-duration: 22s;
+      animation-delay: -14s;
+    }
+    .orb-5::after { font-size: 36px; }
+
+    /* Mobile orb scaling */
+    @media (max-width: 480px) {
+      .orb-1 { width: 200px; height: 200px; top: -40px; left: -50px; }
+      .orb-1::after { font-size: 90px; }
+      .orb-2 { width: 140px; height: 140px; top: 58%; right: -30px; }
+      .orb-2::after { font-size: 64px; }
+      .orb-3 { width: 110px; height: 110px; bottom: -20px; left: 28%; }
+      .orb-3::after { font-size: 50px; }
+      .orb-4 { width: 80px; height: 80px; top: 18%; right: 12%; }
+      .orb-4::after { font-size: 36px; }
+      .orb-5 { width: 55px; height: 55px; top: 68%; left: 8%; }
+      .orb-5::after { font-size: 24px; }
+    }
+
+    @keyframes float {
+      0%   { transform: translateY(0px) rotate(0deg); }
+      25%  { transform: translateY(-18px) rotate(4deg); }
+      50%  { transform: translateY(-8px) rotate(-2deg); }
+      75%  { transform: translateY(-24px) rotate(3deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    /* ── Center logo ── */
+    .center {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      text-align: center;
+      user-select: none;
+    }
+
+    .logo {
+      font-family: 'Neue Haas Grotesk Display Pro', 'Neue Haas Grotesk', 'NeueHaasGroteskDisplayPro', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      font-weight: 700;
+      font-size: clamp(56px, 16vw, 180px);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: #fff;
+      padding: 0 16px;
+    }
+
+    .tagline {
+      font-family: 'Neue Haas Grotesk Display Pro', 'Neue Haas Grotesk', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      font-weight: 400;
+      font-size: clamp(11px, 2vw, 15px);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+
+    .ig-link {
+      font-family: 'Neue Haas Grotesk Display Pro', 'Neue Haas Grotesk', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      font-weight: 500;
+      font-size: clamp(10px, 2vw, 13px);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      margin-top: 8px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .ig-link:hover, .ig-link:active {
+      color: rgba(255,255,255,0.65);
+    }
+
+    /* Vignette overlay to deepen the edges */
+    .vignette {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+      background: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.85) 100%);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+    <div class="orb orb-5"></div>
+  </div>
+
+  <div class="vignette"></div>
+
+  <div class="center">
+    <div class="logo">NØRMAL</div>
+    <div class="tagline">Market</div>
+    <a class="ig-link" href="https://www.instagram.com/hqnormal" target="_blank" rel="noopener">@hqnormal</a>
+  </div>
+
+</body>
+</html>
