@@ -232,7 +232,57 @@
     .spec .spec-link:hover, .spec .spec-link:active { color: #fff; }
 
     /* Tighten the wordmark a touch — more monumental/industrial */
-    .logo { letter-spacing: -0.04em; }
+    .logo {
+      letter-spacing: -0.04em;
+      animation: logo-jitter-a 13.1s linear infinite;
+      will-change: transform, filter;
+    }
+    /* Second, coprime layer — composes with the outer transform so the
+       combined jitter pattern doesn't visibly repeat for ~2 min */
+    .logo-inner {
+      display: inline-block;
+      animation: logo-jitter-b 9.7s linear infinite;
+      will-change: transform, filter;
+    }
+
+    /* Bursts sit at uneven points in each loop → irregular intervals.
+       Amplitude is sub-pixel-ish + a faint blur = barely-there disruption. */
+    @keyframes logo-jitter-a {
+      0%, 8.6%  { transform: translate(0, 0);          filter: blur(0); }
+      9.0%      { transform: translate(1px, -0.6px);   filter: blur(0.5px); }
+      9.4%      { transform: translate(-1.2px, 0.4px); filter: blur(0.3px); }
+      9.8%      { transform: translate(0.8px, 0.6px);  filter: blur(0.6px); }
+      10.2%     { transform: translate(-0.6px,-0.4px); filter: blur(0.2px); }
+      10.6%, 51.5% { transform: translate(0, 0);       filter: blur(0); }
+      51.9%     { transform: translate(-1px, 0.5px);   filter: blur(0.5px); }
+      52.3%     { transform: translate(1.1px, -0.5px); filter: blur(0.4px); }
+      52.7%     { transform: translate(-0.7px, 0.3px); filter: blur(0.6px); }
+      53.1%     { transform: translate(0.5px, 0.4px);  filter: blur(0.2px); }
+      53.5%, 79.8% { transform: translate(0, 0);       filter: blur(0); }
+      80.2%     { transform: translate(1.2px, 0.5px);  filter: blur(0.6px); }
+      80.6%     { transform: translate(-0.9px,-0.6px); filter: blur(0.4px); }
+      81.0%     { transform: translate(0.6px, 0.7px);  filter: blur(0.5px); }
+      81.4%     { transform: translate(-0.4px,-0.3px); filter: blur(0.2px); }
+      81.8%, 100% { transform: translate(0, 0);        filter: blur(0); }
+    }
+    @keyframes logo-jitter-b {
+      0%, 21.6% { transform: translate(0, 0);          filter: blur(0); }
+      22.0%     { transform: translate(-0.8px, 0.4px); filter: blur(0.4px); }
+      22.4%     { transform: translate(0.7px, -0.5px); filter: blur(0.3px); }
+      22.8%     { transform: translate(-0.5px, 0.3px); filter: blur(0.4px); }
+      23.2%     { transform: translate(0.4px, 0.2px);  filter: blur(0.15px); }
+      23.6%, 65.5% { transform: translate(0, 0);       filter: blur(0); }
+      65.9%     { transform: translate(0.8px, 0.5px);  filter: blur(0.4px); }
+      66.3%     { transform: translate(-0.6px,-0.4px); filter: blur(0.3px); }
+      66.7%     { transform: translate(0.5px, 0.3px);  filter: blur(0.4px); }
+      67.1%     { transform: translate(-0.3px,-0.2px); filter: blur(0.15px); }
+      67.5%, 100% { transform: translate(0, 0);        filter: blur(0); }
+    }
+
+    /* Accessibility: no jitter for users who ask for reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .logo, .logo-inner { animation: none; }
+    }
 
     @media (max-width: 480px) {
       .tech-bl, .tech-br { display: none; }   /* declutter on small screens */
@@ -265,7 +315,7 @@
   <div class="vignette"></div>
 
   <div class="center">
-    <div class="logo">NØRMAL</div>
+    <div class="logo"><span class="logo-inner">NØRMAL</span></div>
     <div class="spec">
       <span>Market</span>
       <span class="sep">/</span>
